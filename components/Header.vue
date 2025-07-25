@@ -26,7 +26,7 @@
         </h1>
       </NuxtLink>
       <button
-        class="text-lg font-semibold px-3 py-2 rounded-4xl cursor-pointer transition-colors duration-300 w-[100px] text-center"
+        class="text-base font-semibold px-4 py-3 rounded-4xl cursor-pointer transition-colors duration-300 text-center"
         :class="
           isOpen
             ? 'bg-black text-white hover:bg-[#3b3b3a]'
@@ -38,7 +38,7 @@
       </button>
     </div>
 
-    <!-- DROPDOWN BELOW HEADER -->
+    <!-- DROPDOWN -->
     <transition name="dropdown-slide">
       <div
         v-if="isOpen"
@@ -60,27 +60,12 @@
       </div>
     </transition>
 
-    <!-- MAIN TITLE -->
-    <div
-      class="flex flex-col items-center justify-center text-center fixed top-[33%] transform -translate-y-[30%] w-full z-1"
-    >
-      <h1
-        class="text-[160px] font-extrabold uppercase flex justify-center items-center"
-      >
-        <span
-          v-for="(letter, index) in currentLetters"
-          :key="index"
-          class="letter"
-          :style="{ animationDelay: `${letterDelays[index]}ms` }"
-        >
-          {{ letter }}
-        </span>
-      </h1>
-    </div>
+    <!-- Page slot (content như main title) -->
+    <slot />
   </div>
 </template>
+
 <script setup lang="ts">
-// menu
 const isOpen = ref(false);
 const menuHeader = ref<HTMLElement | null>(null);
 const dropdown = ref<HTMLElement | null>(null);
@@ -89,7 +74,6 @@ function toggleMenu() {
   isOpen.value = !isOpen.value;
 }
 
-// Click ra ngoài thì đóng menu
 function handleClickOutside(event: MouseEvent) {
   if (
     isOpen.value &&
@@ -102,68 +86,18 @@ function handleClickOutside(event: MouseEvent) {
 
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
-  updateCurrentWord(0);
-  let idx = 1;
-
-  intervalId = setInterval(() => {
-    updateCurrentWord(idx);
-    idx = (idx + 1) % words.length;
-  }, 800);
 });
 
 onUnmounted(() => {
   document.removeEventListener("click", handleClickOutside);
-  clearInterval(intervalId);
 });
 
-// 🔒 Khóa scroll body khi menu mở
 watch(isOpen, (newVal) => {
-  if (newVal) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "";
-  }
+  document.body.style.overflow = newVal ? "hidden" : "";
 });
-
-// Title animation
-const words = ["The", "Future", "of", "Clubbing"];
-const currentWord = ref(words[0]);
-const currentLetters = ref<string[]>([]);
-const letterDelays = ref<number[]>([]);
-
-function updateCurrentWord(index: number) {
-  const word = words[index];
-  currentWord.value = word;
-
-  const letters = word.split("");
-  const displayOrder: number[] = new Array(letters.length);
-
-  let left = 0;
-  let right = letters.length - 1;
-  let delay = 0;
-  const step = 120;
-
-  while (left < right) {
-    displayOrder[left] = delay;
-    displayOrder[right] = delay;
-    delay += step;
-    left++;
-    right--;
-  }
-
-  if (left === right) {
-    displayOrder[left] = delay;
-  }
-
-  currentLetters.value = letters;
-  letterDelays.value = displayOrder;
-}
-
-let intervalId: ReturnType<typeof setInterval>;
 </script>
 
 <style scoped>
-/* menu dropdown */
 .dropdown-slide-enter-active,
 .dropdown-slide-leave-active {
   transition: all 0.4s ease;
@@ -177,24 +111,5 @@ let intervalId: ReturnType<typeof setInterval>;
 .dropdown-slide-leave-from {
   transform: translateY(0);
   opacity: 1;
-}
-
-/* từng chữ xuất hiện */
-.letter {
-  opacity: 0;
-  display: inline-block;
-  transform: scale(0.8);
-  animation: appearCenter 0.4s ease-out forwards;
-}
-
-@keyframes appearCenter {
-  from {
-    opacity: 0;
-    transform: scale(0.6) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
 }
 </style>
