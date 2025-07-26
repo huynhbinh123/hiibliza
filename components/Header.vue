@@ -43,15 +43,20 @@
       <div
         v-if="isOpen"
         ref="dropdown"
-        class="fixed top-[56px] left-1/2 -translate-x-1/2 z-40 w-[400px] h-[90vh] max-h-[90vh] overflow-y-auto max-w-4xl rounded-b-3xl bg-black text-white shadow-lg p-6 text-center space-y-4 rounded-lg"
+        class="fixed top-[56px] pt-14 left-1/2 -translate-x-1/2 z-40 w-[400px] h-[90vh] max-h-[90vh] overflow-y-auto max-w-4xl rounded-b-3xl bg-black text-white/60 shadow-lg text-center space-y-4 rounded-lg"
       >
-        <div class="text-xl font-bold uppercase">Events</div>
-        <div class="text-xl font-bold uppercase">News</div>
-        <div class="text-xl font-bold uppercase">Music</div>
-        <div class="text-xl font-bold uppercase">VIP Tables</div>
-        <div class="text-xl font-bold uppercase">About</div>
-        <div class="text-xl font-bold uppercase">Store</div>
-        <div class="pt-4 border-t border-gray-700 text-xs text-gray-400">
+        <!-- Lặp qua dropDown -->
+        <div
+          v-for="item in dropDown"
+          :key="item.link"
+          class="text-5xl font-bold uppercase hover:text-white transition-colors duration-300 mb-0"
+        >
+          <NuxtLink :to="item.link">{{ item.title }}</NuxtLink>
+        </div>
+
+        <DropDown :items="items" />
+
+        <div class="pt-4 border-t border-gray-700 text-xs text-gray-400 mt-20">
           © 2017 - 2025 Ushuaïa Entertainment S.L.<br />
           <span class="underline cursor-pointer">EN</span> / ES ·
           <span class="underline cursor-pointer">FAQs</span> /
@@ -95,6 +100,73 @@ onUnmounted(() => {
 watch(isOpen, (newVal) => {
   document.body.style.overflow = newVal ? "hidden" : "";
 });
+
+// dropdown
+const dropDown = [
+  {
+    title: "Events",
+    link: "/events",
+  },
+  {
+    title: "News",
+    link: "/news",
+  },
+  {
+    title: "Music",
+    link: "/music",
+  },
+  {
+    title: "VIP Tables",
+    link: "/vip-tables",
+  },
+  {
+    title: "About",
+    link: "/about",
+  },
+  {
+    title: "Store",
+    link: "/store",
+  },
+];
+
+// Import the DropDown component
+const items = [
+  {
+    name: "Solomun",
+    image: "/imgs/Fridays.avif",
+    slug: "/residency/solomun",
+  },
+  {
+    name: "Black Coffee",
+    image: "/imgs/Saturdays.avif",
+    slug: "/residency/black-coffee",
+  },
+  {
+    name: "GlitterBox",
+    image: "/imgs/Sundays.avif",
+    slug: "/residency/glitterbox",
+  },
+  {
+    name: "Meduza And James",
+    image: "/imgs/Mondays.avif",
+    slug: "/residency/martin-garrix",
+  },
+  {
+    name: "Calvin Harris",
+    image: "/imgs/Tuesdays.avif",
+    slug: "/residency/calvin-harris",
+  },
+  {
+    name: "Armin van Buuren",
+    image: "/imgs/Wednesdays.avif",
+    slug: "/residency/armin-van-buuren",
+  },
+  {
+    name: "Tiesto",
+    image: "/imgs/Thursdays.avif",
+    slug: "/residency/tiesto",
+  },
+];
 </script>
 
 <style scoped>
