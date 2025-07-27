@@ -1,81 +1,15 @@
 <template>
   <UContainer>
-    <div class="w-full flex justify-center items-center py-8 relative">
-      <!-- Wrapper có kích thước bằng ảnh -->
-      <div class="relative z-20 w-[1264px]">
-        <!-- MAIN TITLE -->
-        <div
-          ref="titleRef"
-          class="w-full flex flex-col items-center justify-center text-center z-10 transition-all duration-500"
-          :class="
-            isFixed
-              ? 'fixed top-[33%] -translate-y-[30%] left-1/2 -translate-x-1/2 z-0'
-              : 'absolute    -translate-y-[30%] left-1/2 -translate-x-1/2 '
-          "
-        >
-          <h1
-            class="text-[160px] font-extrabold uppercase flex justify-center items-center"
-          >
-            <span
-              v-for="(letter, index) in currentLetters"
-              :key="index"
-              class="letter"
-              :style="{ animationDelay: `${letterDelays[index]}ms` }"
-            >
-              {{ letter }}
-            </span>
-          </h1>
-        </div>
+    <!-- MainTitleSticky-->
+    <MainTitleSticky :event="event" />
 
-        <!-- Ảnh -->
-        <img
-          ref="firstImage"
-          src="/imgs/trilogy.avif"
-          alt=""
-          class="w-full h-auto object-cover rounded-4xl shadow-lg relative z-10"
-        />
-
-        <!-- Sticky nội dung -->
-        <div
-          class="absolute z-20 top-6 inset-0 flex items-start justify-center"
-        >
-          <!-- h2 sticky khi scroll -->
-          <div class="sticky top-[50vh] space-y-4 pb-[30px]">
-            <h2 class="text-white text-5xl font-bold text-center">
-              THE TRILOGY HÏ IBIZA CLOSING PARTY <br />2025
-            </h2>
-            <div class="flex justify-center space-x-3">
-              <UButton
-                size="lg"
-                color="primary"
-                label="Sign Up"
-                class="bg-blue-500 font-medium text-lg rounded-3xl text-white hover:bg-blue-600 transition-colors duration-300 cursor-pointer"
-              />
-              <UButton
-                size="lg"
-                color="primary"
-                variant="soft"
-                label="VIP Tables"
-                class="bg-blue-500 font-medium text-lg rounded-3xl text-white hover:bg-blue-600 transition-colors duration-300 cursor-pointer"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--  -->
-    <div
-      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none"
-    >
-      <h1 class="font-bold text-8xl uppercase text-black">Residents</h1>
-    </div>
+    <SectionTitleMid title="Residents" wrapperClass="h-[600px]" />
 
     <!-- list imgs -->
     <UContainer>
       <!-- Carousel -->
       <div
-        class="relative z-20 w-full flex flex-col justify-center items-center mt-90"
+        class="relative z-20 w-full flex flex-col justify-center items-center"
       >
         <Swiper
           :modules="modules"
@@ -95,12 +29,12 @@
           class="w-[1028px] h-[620px]"
         >
           <SwiperSlide
-            v-for="(img, index) in imageList"
+            v-for="(item, index) in imageList"
             :key="index"
             class="w-[600px] h-[100%] rounded-4xl overflow-hidden"
           >
             <img
-              :src="img.src"
+              :src="item.src"
               class="w-full h-full object-cover rounded-4xl relative z-10"
             />
             <div
@@ -109,24 +43,27 @@
               <div
                 class="text-white text-sm uppercase px-2 py-1 font-bold text-center bg-[hsl(280.59,40.48%,16.47%)] rounded-2xl"
               >
-                {{ img.day }}
+                {{ item.day }}
               </div>
               <div
                 class="text-white text-3xl uppercase font-bold text-center mt-2"
               >
-                {{ img.title }}
+                {{ item.title }}
               </div>
-              <MyButton text="Read More" class="mt-4" />
+              <MyButton text="Read More" class="mt-4" :to="item.slug" />
             </div>
           </SwiperSlide>
         </Swiper>
-        <div class="swiper-pagination mt-4 flex justify-center space-x-2" />
+        <div class="swiper-pagination mt-10 flex justify-center space-x-2" />
       </div>
     </UContainer>
 
+    <SectionTitleMid title="SPECIAL EVENTS" wrapperClass="h-[600px]" />
+
     <!--  Show -->
-    <div class="flex flex-col items-center justify-center mt-90">
-      <div
+    <div class="flex flex-col items-center justify-center">
+      <NuxtLink
+        :to="Show.slug"
         class="flex flex-col items-center justify-center overflow-hidden mx-auto relative rounded-4xl z-20 w-[416px] h-[611px]"
       >
         <img :src="Show.img" alt="" class="w-full h-full object-cover" />
@@ -143,12 +80,13 @@
           </div>
           <MyButton text="Read More" class="mt-5" />
         </div>
-      </div>
-      <ButtonShow text="Show All" />
+      </NuxtLink>
+
+      <ButtonShow text="Show All" :to="Show.showAll" />
     </div>
 
     <!-- giới thiệu  -->
-    <div class="mx-auto max-w-6xl px-4 py-29 relative z-20">
+    <div class="mx-auto max-w-6xl px-4 pt-29 relative z-20">
       <div class="text-center">
         <h2 class="font-bold text-8xl uppercase text-black mb-4">
           {{ introduce.name }}
@@ -162,28 +100,42 @@
         ></div>
       </div>
     </div>
-
+    <SectionTitleMid title="Music" wrapperClass="h-[600px]" />
     <!-- Music List -->
-    <div class="mt-135">
+    <div>
       <MusicList :items="musicList" />
-      <ButtonShow text="Show All" class="flex justify-center mt-[54px]" />
+      <ButtonShow
+        text="Show All"
+        to="/music"
+        class="flex justify-center mt-[54px]"
+      />
     </div>
 
+    <SectionTitleMid title="SS25" wrapperClass="h-[600px]" />
+
     <!-- Fashion products -->
-    <div class="flex justify-center mt-120">
+    <div class="flex justify-center">
       <FashionProducts :items="fashionProducts" buttonText="Buy Now" />
     </div>
 
+    <SectionTitleMid title="Subscribe" wrapperClass="h-[600px]" class="mt-12" />
+
     <!-- subscribe -->
-    <div class="flex justify-center mt-132">
+    <div class="flex justify-center">
       <Subscribe />
     </div>
 
+    <SectionTitleMid title="News" wrapperClass="h-[600px]" />
+
     <!-- new -->
-    <div class="flex justify-center mt-120">
+    <div class="flex justify-center">
       <FashionProducts :items="News" buttonText="Read More" />
     </div>
-    <ButtonShow text="Show All" class="flex justify-center mt-[54px]" />
+    <ButtonShow
+      text="Show All"
+      class="flex items-center justify-center mx-auto mt-20"
+      to="/new"
+    />
   </UContainer>
 </template>
 <script lang="ts" setup>
@@ -216,7 +168,16 @@ const imageList = [
     title: "Hugel Presents Make The Girls Dance ",
     day: "Thursdays",
   },
-];
+].map((item) => ({
+  ...item,
+  slug:
+    "/residency/" +
+    item.title
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "") // loại bỏ ký tự đặc biệt
+      .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
+}));
 
 const introduce = {
   name: "HÏ IBIZA",
@@ -232,90 +193,11 @@ const formattedDescription = computed(() =>
     .join("")
 );
 
-// main title
-const words = ["The", "Future", "of", "Clubbing"];
-const currentWord = ref(words[0]);
-const currentLetters = ref<string[]>([]);
-const letterDelays = ref<number[]>([]);
-let intervalId: ReturnType<typeof setInterval>;
-function updateCurrentWord(index: number) {
-  const word = words[index];
-  currentWord.value = word;
-  const letters = word.split("");
-  const displayOrder: number[] = new Array(letters.length);
-  let left = 0;
-  let right = letters.length - 1;
-  let delay = 0;
-  const step = 120;
-  while (left < right) {
-    displayOrder[left] = delay;
-    displayOrder[right] = delay;
-    delay += step;
-    left++;
-    right--;
-  }
-  if (left === right) {
-    displayOrder[left] = delay;
-  }
-  currentLetters.value = letters;
-  letterDelays.value = displayOrder;
-}
-onMounted(() => {
-  updateCurrentWord(0);
-  let idx = 1;
-  intervalId = setInterval(() => {
-    updateCurrentWord(idx);
-    idx = (idx + 1) % words.length;
-  }, 800);
-});
-onUnmounted(() => {
-  clearInterval(intervalId);
-});
-// ẩn main title
-
-const isFixed = ref(true);
-const firstImage = ref<HTMLElement | null>(null);
-const titleRef = ref<HTMLElement | null>(null);
-
-const handleScroll = () => {
-  if (!firstImage.value || !titleRef.value) return;
-
-  const imgRect = firstImage.value.getBoundingClientRect();
-  const titleHeight = titleRef.value.offsetHeight;
-
-  const imageTop = imgRect.top;
-  const imageHeight = imgRect.height;
-
-  // Vị trí giữa ảnh trên màn hình
-  const imageCenter = imageTop + imageHeight / 2;
-  const screenCenter = window.innerHeight * 0.33 + titleHeight * 0.3;
-
-  // Nếu giữa ảnh nằm phía trên vị trí giữa màn hình => title đã nằm trong ảnh
-  if (imageCenter <= screenCenter) {
-    isFixed.value = false; // Đổi sang absolute
-  } else {
-    isFixed.value = true; // Giữ fixed
-  }
+const event = {
+  name: "THE TRILOGY HÏ IBIZA CLOSING PARTY 2025",
+  img: "/imgs/trilogy.avif",
+  slug: "campaing/hi-ibiza-closing-party-2025",
 };
-
-onMounted(() => {
-  updateCurrentWord(0);
-  let idx = 1;
-  intervalId = setInterval(() => {
-    updateCurrentWord(idx);
-    idx = (idx + 1) % words.length;
-  }, 800);
-
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  handleScroll(); // lần đầu để xử lý luôn nếu user load giữa trang
-});
-
-onUnmounted(() => {
-  clearInterval(intervalId);
-  window.removeEventListener("scroll", handleScroll);
-});
-
-// mờ chữ khi gần ảnh
 
 // music list
 const musicList = [
@@ -349,13 +231,24 @@ const musicList = [
     title: "Audio",
     description: "AMÉMÉ Live At Hï Ibiza 2024",
   },
-];
+].map((item) => ({
+  ...item,
+  slug:
+    "/music/" +
+    item.description
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "") // loại bỏ ký tự đặc biệt
+      .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
+}));
 
 // SHow
 const Show = {
   img: "/imgs/party.avif",
   title: "Saturday, Oct 11, 2025",
   description: "The Trilogy Hï Ibiza Closing Party 2025",
+  slug: "/event/the-trilogy-hi-ibiza-closing-party",
+  showAll: "/events-calendar",
 };
 
 // Fashion products
@@ -395,7 +288,16 @@ const fashionProducts = [
     title: "SHOP",
     description: "WORLD TOUR STICKER T-SHIRT",
   },
-];
+].map((item) => ({
+  ...item,
+  slug:
+    "/products/" +
+    item.description
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "") // loại bỏ ký tự đặc biệt
+      .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
+}));
 
 // News
 const News = [
@@ -430,12 +332,22 @@ const News = [
     title: "article",
     description: "Hï Ibiza Announces New Residents for 2025",
   },
-];
+].map((item) => ({
+  ...item,
+  slug:
+    "/news/" +
+    item.description
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "") // loại bỏ ký tự đặc biệt
+      .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
+}));
 </script>
 <style>
 .swiper-pagination-bullet {
   width: 12px;
   height: 12px;
+  cursor: pointer;
   background-color: #c4c4c4;
   opacity: 1;
   border-radius: 50%;

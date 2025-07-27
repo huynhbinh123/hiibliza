@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative min-h-[75vh] flex justify-center items-start overflow-visible"
+    class="relative max-h-[75vh] flex justify-center items-start overflow-visible"
   >
     <!-- HEADER -->
     <div
@@ -26,7 +26,7 @@
         </h1>
       </NuxtLink>
       <button
-        class="text-base font-semibold px-4 py-3 rounded-4xl cursor-pointer transition-colors duration-300 text-center"
+        class="text-base w-[74px] font-semibold px-4 py-3 rounded-4xl cursor-pointer transition-colors duration-300 text-center"
         :class="
           isOpen
             ? 'bg-black text-white hover:bg-[#3b3b3a]'
@@ -43,7 +43,7 @@
       <div
         v-if="isOpen"
         ref="dropdown"
-        class="fixed top-[56px] pt-14 left-1/2 -translate-x-1/2 z-40 w-[400px] h-[90vh] max-h-[90vh] overflow-y-auto max-w-4xl rounded-b-3xl bg-black text-white/60 shadow-lg text-center space-y-4 rounded-lg"
+        class="fixed scrollbar-hidden top-[56px] pt-14 left-1/2 -translate-x-1/2 z-40 w-[400px] h-[90vh] max-h-[90vh] overflow-y-auto max-w-4xl rounded-b-3xl bg-black text-white/60 shadow-lg text-center space-y-4 rounded-lg"
       >
         <!-- Lặp qua dropDown -->
         <div
@@ -54,13 +54,21 @@
           <NuxtLink :to="item.link">{{ item.title }}</NuxtLink>
         </div>
 
-        <DropDown :items="items" />
+        <DropDown :items="items" class="mt-14" />
 
-        <div class="pt-4 border-t border-gray-700 text-xs text-gray-400 mt-20">
-          © 2017 - 2025 Ushuaïa Entertainment S.L.<br />
-          <span class="underline cursor-pointer">EN</span> / ES ·
-          <span class="underline cursor-pointer">FAQs</span> /
-          <span class="underline cursor-pointer">Contact</span>
+        <div class="border-t border-gray-700 text-xs text-white py-10 mt-22">
+          <div
+            class="flex items-center justify-center text-lg text-gray-400 font-bold gap-5"
+          >
+            <p>EN / ES</p>
+            <NuxtLink to="/contact-faq"
+              ><p class="hover:text-white cursor-pointer">
+                FAQs / Contact
+              </p></NuxtLink
+            >
+          </div>
+
+          © 2017 - 2025 Ushuaïa Entertainment S.L. All Rights Reserved. <br />
         </div>
       </div>
     </transition>
@@ -98,14 +106,20 @@ onUnmounted(() => {
 });
 
 watch(isOpen, (newVal) => {
-  document.body.style.overflow = newVal ? "hidden" : "";
+  const body = document.body;
+
+  if (newVal) {
+    body.classList.add("scrollbar-hidden");
+  } else {
+    body.classList.remove("scrollbar-hidden");
+  }
 });
 
 // dropdown
 const dropDown = [
   {
     title: "Events",
-    link: "/events",
+    link: "/events-calendar",
   },
   {
     title: "News",
@@ -132,41 +146,50 @@ const dropDown = [
 // Import the DropDown component
 const items = [
   {
-    name: "Solomun",
+    name: "Joseph Capriati Presents Metamorfosi",
     image: "/imgs/Fridays.avif",
-    slug: "/residency/solomun",
+    day: "Fridays",
   },
   {
     name: "Black Coffee",
     image: "/imgs/Saturdays.avif",
-    slug: "/residency/black-coffee",
+    day: "Saturdays",
   },
   {
     name: "GlitterBox",
+    day: "Sundays",
     image: "/imgs/Sundays.avif",
-    slug: "/residency/glitterbox",
   },
   {
-    name: "Meduza And James",
+    name: "MEDUZA And James Hype Present Our House",
+    day: "Mondays",
     image: "/imgs/Mondays.avif",
-    slug: "/residency/martin-garrix",
   },
   {
-    name: "Calvin Harris",
+    name: "The Martinez Brothers",
+    day: "Tuesdays",
     image: "/imgs/Tuesdays.avif",
-    slug: "/residency/calvin-harris",
   },
   {
-    name: "Armin van Buuren",
+    name: "Dom Dolla",
+    day: "Wednesdays",
     image: "/imgs/Wednesdays.avif",
-    slug: "/residency/armin-van-buuren",
   },
   {
-    name: "Tiesto",
+    name: "Hugel Presents Make The Girls Dance",
     image: "/imgs/Thursdays.avif",
-    slug: "/residency/tiesto",
+    day: "Thursdays",
   },
-];
+].map((item) => ({
+  ...item,
+  slug:
+    "/residency/" +
+    item.name
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "") // loại bỏ ký tự đặc biệt
+      .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
+}));
 </script>
 
 <style scoped>
@@ -183,5 +206,22 @@ const items = [
 .dropdown-slide-leave-from {
   transform: translateY(0);
   opacity: 1;
+}
+.scrollbar-hidden {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+body.scrollbar-hidden {
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
 }
 </style>

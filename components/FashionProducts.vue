@@ -16,7 +16,9 @@
         class="flex flex-col items-center justify-center overflow-hidden mx-auto relative rounded-4xl z-20 w-[416px] h-[611px]"
       >
         <!-- Ảnh -->
-        <img :src="item.img" class="w-full h-full object-cover" />
+        <NuxtLink :to="item.slug"
+          ><img :src="item.img" class="w-full h-full object-cover"
+        /></NuxtLink>
 
         <!-- Nội dung chính -->
         <div
@@ -30,14 +32,16 @@
           </h3>
 
           <!-- Mô tả -->
-          <p
-            class="text-white text-3xl uppercase font-bold text-center mt-3 min-h-[72px]"
+          <NuxtLink :to="item.slug"
+            ><p
+              class="text-white text-3xl uppercase font-bold text-center mt-3 min-h-[72px]"
+            >
+              {{ item.description }}
+            </p></NuxtLink
           >
-            {{ item.description }}
-          </p>
 
           <!-- Nút nằm dưới cùng -->
-          <MyButton :text="buttonText" class="mt-12" />
+          <MyButton :text="buttonText" class="mt-12" :to="item.slug" />
         </div>
       </div>
     </template>
@@ -51,6 +55,7 @@ defineProps<{
     img: string;
     title: string;
     description: string;
+    slug: string;
   }[];
   buttonText: string;
 }>();

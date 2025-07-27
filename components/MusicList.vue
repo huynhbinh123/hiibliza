@@ -13,11 +13,12 @@
   >
     <template #default="{ item }">
       <div
-        class="flex flex-col p-2 w-[416px] h-[643px] bg-[#19191a] rounded-4xl"
+        class="flex flex-col p-2 w-[416px] h-[643px] bg-[#19191a] rounded-4xl cursor-grab active:cursor-grabbing"
       >
         <!-- Ảnh -->
-        <img :src="item.img" class="rounded-3xl mb-4" />
-
+        <NuxtLink :to="item.slug"
+          ><img :src="item.img" class="rounded-3xl mb-4"
+        /></NuxtLink>
         <!-- Nội dung chính -->
         <div class="flex flex-col flex-grow w-full px-4">
           <!-- Tiêu đề -->
@@ -28,14 +29,15 @@
           </h3>
 
           <!-- Mô tả -->
-          <p
+          <NuxtLink
+            :to="item.slug"
             class="text-white text-start text-3xl uppercase font-bold mt-2 min-h-[108px]"
           >
             {{ item.description }}
-          </p>
+          </NuxtLink>
 
           <!-- Nút nằm dưới cùng -->
-          <div class="mt-6">
+          <NuxtLink :to="item.slug" class="mt-6">
             <UButton
               size="lg"
               color="primary"
@@ -44,7 +46,7 @@
             >
               Listen
             </UButton>
-          </div>
+          </NuxtLink>
         </div>
       </div>
     </template>
@@ -57,6 +59,7 @@ defineProps<{
     img: string;
     title: string;
     description: string;
+    slug: string;
   }[];
 }>();
 </script>

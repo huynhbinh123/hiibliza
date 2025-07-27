@@ -10,10 +10,28 @@
           access and 20% off merch.
         </p>
         <UButton
-          class="mt-4 px-6 py-2 bg-blue-400 text-lg text-white rounded-full"
+          class="mt-4 px-17 py-2 bg-blue-600 hover:bg-blue-700 text-lg text-white rounded-full cursor-pointer"
+          @click="showModal = true"
         >
           Subscribe
         </UButton>
+        <!-- Modal overlay -->
+        <div
+          v-if="showModal"
+          class="fixed inset-0 bg-black/80 bg-opacity-60 flex items-center justify-center z-50"
+          @click.self="showModal = false"
+        >
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-4xl max-w-4xl">
+            <button
+              class="absolute top-2 right-3 cursor-pointer text-white bg-red-500 rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 z-30"
+              @click="showModal = false"
+            >
+              ✕
+            </button>
+            <Subscribe />
+          </div>
+        </div>
       </div>
       <div class="mt-8 text-sm">
         <p class="mb-1">
@@ -79,6 +97,16 @@
 </template>
 
 <script setup lang="ts">
+const showModal = ref(false);
+
+watch(showModal, (val) => {
+  if (val) {
+    document.body.classList.add("overflow-hidden");
+  } else {
+    document.body.classList.remove("overflow-hidden");
+  }
+});
+
 const Social = [
   { name: "Instagram", link: "https://www.instagram.com/hiibizaofficial" },
   { name: "TikTok", link: "https://www.tiktok.com/@hiibiza" },
