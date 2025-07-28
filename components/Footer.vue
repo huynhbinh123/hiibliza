@@ -1,10 +1,12 @@
 <template>
   <footer
-    class="grid grid-cols-2 mt-32 p-17 text-black justify-between max-w-[1325px] mx-auto relative z-20"
+    class="grid lg:grid-cols-2 grid-cols-1 mt-32 p-17 text-black justify-between max-w-[1325px] mx-auto relative z-20 gap-10"
   >
     <!-- LEFT -->
-    <div class="col-span-1 flex flex-col justify-between">
-      <div>
+    <div
+      class="col-span-1 flex flex-col justify-between lg:items-start items-center"
+    >
+      <div class="flex flex-col justify-center lg:items-start items-center">
         <p class="text-lg">
           Sign-up now to receive pre sale<br />
           access and 20% off merch.
@@ -33,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div class="mt-8 text-sm">
+      <div class="mt-8 text-sm lg:block hidden">
         <p class="mb-1">
           Powered by
           <a
@@ -92,6 +94,22 @@
           </ul>
         </div>
       </div>
+    </div>
+    <!-- Mobile only -->
+    <div class="mt-8 text-sm text-center block lg:hidden">
+      <p class="font-semibold mb-1">
+        Powered by
+        <a
+          href="https://www.thenightleague.com/"
+          target="_blank"
+          class="text-2xl font-bold"
+        >
+          TNL
+        </a>
+      </p>
+      <p class="font-semibold">
+        © 2017 - 2025 Ushuaïa Entertainment, SL All rights reserved
+      </p>
     </div>
   </footer>
 </template>

@@ -1,72 +1,72 @@
 <template>
-  <UContainer>
+  <div class="px-2">
     <!-- MainTitleSticky-->
     <MainTitleSticky :event="event" />
 
-    <SectionTitleMid title="Residents" wrapperClass="h-[600px]" />
+    <SectionTitleMid title="Residents"  />
 
     <!-- list imgs -->
-    <UContainer>
-      <!-- Carousel -->
-      <div
-        class="relative z-20 w-full flex flex-col justify-center items-center"
+    <!-- Carousel -->
+    <div class="relative z-20 w-full flex flex-col justify-center items-center">
+      <Swiper
+        :modules="modules"
+        effect="coverflow"
+        grabCursor
+        centeredSlides
+        loop
+        slidesPerView="auto"
+        :coverflowEffect="{
+          rotate: 0,
+          stretch: 0,
+          depth: 100,
+          modifier: 2.5,
+          slideShadows: true,
+        }"
+        :pagination="{ el: '.swiper-pagination', clickable: true }"
+        class="lg:w-[1052px] w-full lg:h-[701px] h-[538px] object-cover px-4"
       >
-        <Swiper
-          :modules="modules"
-          effect="coverflow"
-          grabCursor
-          centeredSlides
-          loop
-          slidesPerView="auto"
-          :coverflowEffect="{
-            rotate: 0,
-            stretch: 0,
-            depth: 100,
-            modifier: 2.5,
-            slideShadows: true,
-          }"
-          :pagination="{ el: '.swiper-pagination', clickable: true }"
-          class="w-[1028px] h-[620px]"
+        <SwiperSlide
+          v-for="(item, index) in imageList"
+          :key="index"
+          class="relative rounded-4xl overflow-hidden"
         >
-          <SwiperSlide
-            v-for="(item, index) in imageList"
-            :key="index"
-            class="w-[600px] h-[100%] rounded-4xl overflow-hidden"
+          <img
+            :src="item.src"
+            class="w-full h-full object-cover rounded-4xl relative z-10"
+          />
+          <div
+            class="absolute bottom-4 left-0 w-full px-4 flex flex-col items-center justify-end z-20 pointer-events-none"
           >
-            <img
-              :src="item.src"
-              class="w-full h-full object-cover rounded-4xl relative z-10"
-            />
             <div
-              class="absolute bottom-4 left-0 w-full px-4 flex flex-col items-center justify-end z-20 pointer-events-none"
+              class="text-white text-sm uppercase px-2 py-1 font-bold text-center bg-[hsl(280.59,40.48%,16.47%)] rounded-2xl"
             >
-              <div
-                class="text-white text-sm uppercase px-2 py-1 font-bold text-center bg-[hsl(280.59,40.48%,16.47%)] rounded-2xl"
-              >
-                {{ item.day }}
-              </div>
-              <div
-                class="text-white text-3xl uppercase font-bold text-center mt-2"
-              >
-                {{ item.title }}
-              </div>
-              <MyButton text="Read More" class="mt-4" :to="item.slug" />
+              {{ item.day }}
             </div>
-          </SwiperSlide>
-        </Swiper>
-        <div class="swiper-pagination mt-10 flex justify-center space-x-2" />
-      </div>
-    </UContainer>
+            <div
+              class="text-white text-3xl uppercase font-bold text-center mt-2"
+            >
+              {{ item.title }}
+            </div>
+            <MyButton text="Read More" class="mt-4" :to="item.slug" />
+          </div>
+        </SwiperSlide>
+      </Swiper>
+      <div class="swiper-pagination mt-10 flex justify-center space-x-2" />
+    </div>
 
-    <SectionTitleMid title="SPECIAL EVENTS" wrapperClass="h-[600px]" />
+    <SectionTitleMid title="SPECIAL EVENTS"/>
 
     <!--  Show -->
     <div class="flex flex-col items-center justify-center">
       <NuxtLink
         :to="Show.slug"
-        class="flex flex-col items-center justify-center overflow-hidden mx-auto relative rounded-4xl z-20 w-[416px] h-[611px]"
+        class="flex flex-col items-center justify-center overflow-hidden mx-auto relative z-20"
       >
-        <img :src="Show.img" alt="" class="w-full h-full object-cover" />
+        <img
+          :src="Show.img"
+          alt=""
+          class="lg:w-[416px] w-[374px] lg:h-full h-auto rounded-4xl object-cover"
+        />
         <div
           class="absolute bottom-8 left-0 w-full px-4 flex flex-col items-center justify-end z-20 pointer-events-none"
         >
@@ -88,19 +88,19 @@
     <!-- giới thiệu  -->
     <div class="mx-auto max-w-6xl px-4 pt-29 relative z-20">
       <div class="text-center">
-        <h2 class="font-bold text-8xl uppercase text-black mb-4">
+        <h2 class="font-bold lg:text-8xl text-6xl uppercase text-black mb-4">
           {{ introduce.name }}
         </h2>
       </div>
       <div class="max-w-2xl mx-auto text-left">
-        <p class="text-2xl font-bold mb-6">{{ introduce.title }}</p>
+        <p class="lg:text-2xl text-lg font-bold mb-6">{{ introduce.title }}</p>
         <div
           v-html="formattedDescription"
-          class="text-lg text-gray-700 max-w-2xl"
+          class="lg:text-lg text-base text-gray-900 font-semibold max-w-2xl"
         ></div>
       </div>
     </div>
-    <SectionTitleMid title="Music" wrapperClass="h-[600px]" />
+    <SectionTitleMid title="Music"  />
     <!-- Music List -->
     <div>
       <MusicList :items="musicList" />
@@ -111,21 +111,21 @@
       />
     </div>
 
-    <SectionTitleMid title="SS25" wrapperClass="h-[600px]" />
+    <SectionTitleMid title="SS25"  />
 
     <!-- Fashion products -->
     <div class="flex justify-center">
       <FashionProducts :items="fashionProducts" buttonText="Buy Now" />
     </div>
 
-    <SectionTitleMid title="Subscribe" wrapperClass="h-[600px]" class="mt-12" />
+    <SectionTitleMid title="Subscribe" wrapperClass="h-[600px]" class="4t-12" />
 
     <!-- subscribe -->
     <div class="flex justify-center">
       <Subscribe />
     </div>
 
-    <SectionTitleMid title="News" wrapperClass="h-[600px]" />
+    <SectionTitleMid title="News"  />
 
     <!-- new -->
     <div class="flex justify-center">
@@ -134,9 +134,9 @@
     <ButtonShow
       text="Show All"
       class="flex items-center justify-center mx-auto mt-20"
-      to="/new"
+      to="/news"
     />
-  </UContainer>
+  </div class="px-2">
 </template>
 <script lang="ts" setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -314,12 +314,12 @@ const News = [
   {
     img: "/imgs/news3.avif",
     title: "article",
-    description: "The Trilogy Hï Ibiza Closing Party 2025",
+    description: "The Roots of Patrick Topping",
   },
   {
     img: "/imgs/news4.avif",
     title: "article",
-    description: "Hï Ibiza Announces New Residents for 2025",
+    description: "Hï Ibiza Guide To July",
   },
   {
     img: "/imgs/news5.avif",
@@ -330,7 +330,7 @@ const News = [
   {
     img: "/imgs/news6.avif",
     title: "article",
-    description: "Hï Ibiza Announces New Residents for 2025",
+    description: "Explore The #1 Club In The World",
   },
 ].map((item) => ({
   ...item,

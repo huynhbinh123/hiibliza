@@ -4,16 +4,17 @@
     :items="items"
     :ui="{
       item: 'basis-1/3 pr-2',
-      dots: 'mt-10 ml-226 flex justify-center gap-3',
+      dots: 'mt-10  lg:ml-[48%] ml-[35%]  flex justify-center gap-3',
       // giới hạn bên trái ml-157
       dot: 'h-2 w-2 rounded-full bg-gray-400 transition-all data-[state=active]:!bg-black data-[state=active]:!scale-110',
     }"
+    loop
     class="w-full"
     dots
   >
     <template #default="{ item }">
       <div
-        class="flex flex-col items-center justify-center overflow-hidden mx-auto relative rounded-4xl z-20 w-[416px] h-[611px]"
+        class="flex flex-col items-center justify-center overflow-hidden mx-auto relative rounded-4xl z-20 lg:w-[416px] w-[374px]"
       >
         <!-- Ảnh -->
         <NuxtLink :to="item.slug"

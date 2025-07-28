@@ -3,16 +3,16 @@
     <!-- MAIN TITLE -->
     <div
       ref="titleRef"
-      class="w-full flex flex-col items-center justify-center text-center z-10 transition-all duration-500"
+      class="lg:w-full flex flex-col items-center justify-center text-center z-10 transition-all duration-500"
       :class="[
         isFixed
-          ? 'fixed top-[33%] -translate-y-[30%] left-1/2 -translate-x-1/2 z-0'
-          : 'absolute -translate-y-[30%] left-1/2 -translate-x-1/2',
+          ? 'fixed top-[28%] lg:top-[33%] -translate-y-[30%] left-1/2 -translate-x-1/2 z-0'
+          : 'absolute top-[28%] lg:top-[33%] -translate-y-[30%] left-1/2 -translate-x-1/2',
         isHidden ? 'opacity-0 scale-90' : 'opacity-100 scale-100',
       ]"
     >
       <h1
-        class="text-[160px] font-extrabold uppercase flex justify-center items-center"
+        class="text-7xl lg:text-[160px] font-extrabold uppercase flex justify-center items-center"
       >
         <span
           v-for="(letter, index) in currentLetters"
@@ -25,14 +25,14 @@
       </h1>
     </div>
     <!--  -->
-    <div class="relative z-20 w-[1264px] pt-[720px]">
+    <div class="relative z-20 lg:pt-[720px] pt-[450px]">
       <div class="relative w-full z-20">
         <!-- Ảnh nền -->
         <img
           ref="firstImage"
           :src="event.img"
           alt=""
-          class="w-full h-auto object-cover rounded-4xl shadow-lg"
+          class="w-full lg:h-auto h-[690px] object-cover rounded-4xl shadow-lg"
         />
 
         <!-- Sticky nội dung -->
@@ -40,7 +40,9 @@
           class="absolute inset-0 top-6 z-20 flex items-start justify-center"
         >
           <div class="sticky top-[50vh] space-y-4 pb-[30px]">
-            <h2 class="max-w-[892px] text-white text-5xl font-bold text-center">
+            <h2
+              class="max-w-[892px] text-white lg:text-5xl text-4xl font-bold text-center"
+            >
               <NuxtLink :to="event.slug">{{ event.name }}</NuxtLink>
             </h2>
             <div class="flex justify-center space-x-3">
@@ -68,7 +70,7 @@
                   @click.self="showModal = false"
                 >
                   <!-- Modal content -->
-                  <div class="relative bg-white rounded-4xl max-w-4xl">
+                  <div class="relative bg-white rounded-4xl">
                     <button
                       class="absolute top-2 right-3 cursor-pointer text-white bg-red-500 rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 z-30"
                       @click="showModal = false"

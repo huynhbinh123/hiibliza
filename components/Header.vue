@@ -5,7 +5,7 @@
     <!-- HEADER -->
     <div
       ref="menuHeader"
-      class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex justify-between items-center w-[400px] px-1 transition-all duration-300"
+      class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex justify-between items-center lg:w-[400px] w-[358px] px-1 transition-all duration-300"
       :class="[
         isOpen
           ? 'rounded-t-4xl bg-black text-white'
@@ -43,7 +43,7 @@
       <div
         v-if="isOpen"
         ref="dropdown"
-        class="fixed scrollbar-hidden top-[56px] pt-14 left-1/2 -translate-x-1/2 z-40 w-[400px] h-[90vh] max-h-[90vh] overflow-y-auto max-w-4xl rounded-b-3xl bg-black text-white/60 shadow-lg text-center space-y-4 rounded-lg"
+        class="fixed scrollbar-hidden top-[56px] pt-14 left-1/2 -translate-x-1/2 z-40 lg:w-[400px] w-[358px] h-[90vh] max-h-[90vh] overflow-y-auto max-w-4xl rounded-b-3xl bg-black text-white/60 shadow-lg text-center space-y-4 rounded-lg"
       >
         <!-- Lặp qua dropDown -->
         <div
@@ -192,7 +192,7 @@ const items = [
 }));
 </script>
 
-<style scoped>
+<style>
 .dropdown-slide-enter-active,
 .dropdown-slide-leave-active {
   transition: all 0.4s ease;
