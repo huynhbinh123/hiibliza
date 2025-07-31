@@ -43,17 +43,21 @@
       <div
         v-if="isOpen"
         ref="dropdown"
-        class="fixed scrollbar-hidden top-[56px] pt-14 left-1/2 -translate-x-1/2 z-40 lg:w-[400px] w-[358px] h-[90vh] max-h-[90vh] overflow-y-auto max-w-4xl rounded-b-3xl bg-black text-white/60 shadow-lg text-center space-y-4 rounded-lg"
+        class="fixed top-[56px] scrollbar-hidden pt-14 left-1/2 -translate-x-1/2 z-40 lg:w-[400px] w-[358px] h-[90vh] max-h-[90vh] overflow-y-auto max-w-4xl rounded-b-3xl bg-black text-white/60 shadow-lg text-center space-y-4 rounded-lg"
       >
-        <!-- Lặp qua dropDown -->
         <div
           v-for="item in dropDown"
           :key="item.link"
-          class="text-5xl font-bold uppercase hover:text-white transition-colors duration-300 mb-0"
+          class="text-5xl font-bold uppercase hover:text-white transition-colors duration-300 mb-0 cursor-pointer"
+          :class="[
+            route.path === item.link
+              ? 'text-white'
+              : 'text-white/60 hover:text-white',
+          ]"
+          @click="handleSelect(item)"
         >
-          <NuxtLink :to="item.link">{{ item.title }}</NuxtLink>
+          {{ item.title }}
         </div>
-
         <DropDown :items="items" class="mt-14" />
 
         <div class="border-t border-gray-700 text-xs text-white py-10 mt-22">
@@ -79,6 +83,16 @@
 </template>
 
 <script setup lang="ts">
+type EventItem = {
+  name: string;
+  image: string;
+  day: string;
+  slug: string;
+};
+import { ref, watch, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const isOpen = ref(false);
 const menuHeader = ref<HTMLElement | null>(null);
 const dropdown = ref<HTMLElement | null>(null);
@@ -103,16 +117,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener("click", handleClickOutside);
-});
-
-watch(isOpen, (newVal) => {
-  const body = document.body;
-
-  if (newVal) {
-    body.classList.add("scrollbar-hidden");
-  } else {
-    body.classList.remove("scrollbar-hidden");
-  }
 });
 
 // dropdown
@@ -190,6 +194,18 @@ const items = [
       .replace(/[^a-z0-9\s]/g, "") // loại bỏ ký tự đặc biệt
       .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
 }));
+type DropDownItem = {
+  title: string;
+  link: string;
+};
+
+function handleSelect(item: DropDownItem) {
+  isOpen.value = false;
+  router.push(item.link);
+}
+
+import { useRoute } from "vue-router";
+const route = useRoute();
 </script>
 
 <style>

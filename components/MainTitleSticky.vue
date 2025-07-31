@@ -90,6 +90,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, watch, onMounted, onUnmounted } from "vue";
 const showModal = ref(false);
 watch(showModal, (val) => {
   if (val) {

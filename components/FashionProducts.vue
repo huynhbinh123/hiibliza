@@ -8,7 +8,7 @@
       // giới hạn bên trái ml-157
       dot: 'h-2 w-2 rounded-full bg-gray-400 transition-all data-[state=active]:!bg-black data-[state=active]:!scale-110',
     }"
-    loop
+    :loop="isMobile"
     class="w-full"
     dots
   >
@@ -42,7 +42,13 @@
           >
 
           <!-- Nút nằm dưới cùng -->
-          <MyButton :text="buttonText" class="mt-12" :to="item.slug" />
+          <MyButton
+            :text="buttonText"
+            bgColor="white"
+            textColor="black"
+            class="mt-12"
+            :to="item.slug"
+          />
         </div>
       </div>
     </template>
@@ -60,4 +66,11 @@ defineProps<{
   }[];
   buttonText: string;
 }>();
+import { ref, onMounted } from "vue";
+
+const isMobile = ref(false);
+
+onMounted(() => {
+  isMobile.value = window.innerWidth < 1024;
+});
 </script>

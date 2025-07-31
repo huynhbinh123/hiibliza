@@ -9,21 +9,21 @@
     <!-- Carousel -->
     <div class="relative z-20 w-full flex flex-col justify-center items-center">
       <Swiper
-        :modules="modules"
+        :modules="[EffectCoverflow, Pagination]"
         effect="coverflow"
         grabCursor
         centeredSlides
-        loop
-        slidesPerView="auto"
+        :loop="true"
+        :slidesPerView="1.5"
         :coverflowEffect="{
           rotate: 0,
           stretch: 0,
           depth: 100,
           modifier: 2.5,
-          slideShadows: true,
+          slideShadows: true
         }"
         :pagination="{ el: '.swiper-pagination', clickable: true }"
-        class="lg:w-[1052px] w-full lg:h-[701px] h-[538px] object-cover px-4"
+        class="lg:w-[1280px] w-full lg:h-[701px] h-[538px] object-cover px-4"
       >
         <SwiperSlide
           v-for="(item, index) in imageList"
@@ -47,7 +47,7 @@
             >
               {{ item.title }}
             </div>
-            <MyButton text="Read More" class="mt-4" :to="item.slug" />
+            <MyButton text="Read More" class="mt-4" :to="item.slug" bgColor="white" textColor="black"/>
           </div>
         </SwiperSlide>
       </Swiper>
@@ -78,8 +78,8 @@
           <div class="text-white text-3xl uppercase font-bold text-center mt-2">
             {{ Show.description }}
           </div>
-          <MyButton text="Read More" class="mt-5" />
-        </div>
+          <MyButton text="Read More" class="mt-5" bgColor="white" textColor="black"/>
+        </div>  
       </NuxtLink>
 
       <ButtonShow text="Show All" :to="Show.showAll" />
@@ -103,7 +103,7 @@
     <SectionTitleMid title="Music"  />
     <!-- Music List -->
     <div>
-      <MusicList :items="musicList" />
+      <MusicList name="Listen" :items="musicList" />
       <ButtonShow
         text="Show All"
         to="/music"
@@ -139,6 +139,7 @@
   </div class="px-2">
 </template>
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -199,48 +200,7 @@ const event = {
   slug: "campaing/hi-ibiza-closing-party-2025",
 };
 
-// music list
-const musicList = [
-  {
-    img: "/imgs/offplaylsit.avif",
-    title: "Playlist",
-    description: "Hï Ibiza Official Playlist",
-  },
-  {
-    img: "/imgs/jonathankaspar.avif",
-    title: "Audio",
-    description: "Jonathan Kaspar Live At Hï Ibiza 2024",
-  },
-  {
-    img: "/imgs/laylabenitez.avif",
-    title: "Playlist",
-    description: "Layla Benitez Live At Hï Ibiza 2024",
-  },
-  {
-    img: "/imgs/b2bdan.avif",
-    title: "Audio",
-    description: "Eats Everything B2B Dan Shake Live At Hï Ibiza",
-  },
-  {
-    img: "/imgs/djminx.avif",
-    title: "Audio",
-    description: "DJ Minx Live At Hï Ibiza 2024",
-  },
-  {
-    img: "/imgs/ameme.avif",
-    title: "Audio",
-    description: "AMÉMÉ Live At Hï Ibiza 2024",
-  },
-].map((item) => ({
-  ...item,
-  slug:
-    "/music/" +
-    item.description
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "") // loại bỏ ký tự đặc biệt
-      .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
-}));
+
 
 // SHow
 const Show = {
@@ -299,49 +259,12 @@ const fashionProducts = [
       .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
 }));
 
-// News
-const News = [
-  {
-    img: "/imgs/news1.avif",
-    title: "article",
-    description: "What’s On This Week",
-  },
-  {
-    img: "/imgs/news2.avif",
-    title: "interview",
-    description: "James Hype The Road to Now",
-  },
-  {
-    img: "/imgs/news3.avif",
-    title: "article",
-    description: "The Roots of Patrick Topping",
-  },
-  {
-    img: "/imgs/news4.avif",
-    title: "article",
-    description: "Hï Ibiza Guide To July",
-  },
-  {
-    img: "/imgs/news5.avif",
-    title: "article",
-    description: "Hï Ibiza Announces New Residents for 2025",
-  },
+import MusicList from '@/components/MusicList.vue';
+import { useMusicList } from "@/composables/useMusicList";
+import { useNews } from "@/composables/useNews";
+const musicList = useMusicList().slice(0, 6);
+const News = useNews().slice(0, 6);
 
-  {
-    img: "/imgs/news6.avif",
-    title: "article",
-    description: "Explore The #1 Club In The World",
-  },
-].map((item) => ({
-  ...item,
-  slug:
-    "/news/" +
-    item.description
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "") // loại bỏ ký tự đặc biệt
-      .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
-}));
 </script>
 <style>
 .swiper-pagination-bullet {

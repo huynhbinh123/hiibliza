@@ -1,4 +1,30 @@
 {
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json"
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "#app/*": [".nuxt/app/*"],
+      "#build/*": [".nuxt/build/*"],
+      "#imports": [".nuxt/imports.d.ts"],
+      "#internal/*": [".nuxt/internal/*"]
+    },
+    "types": ["@types/node", "@nuxt/image"],
+    "allowJs": true,
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "nuxt.d.ts",
+    ".nuxt",
+    "types/**/*.ts",
+    "types",
+    "components",
+    "pages"
+  ]
 }

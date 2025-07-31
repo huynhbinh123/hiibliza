@@ -115,6 +115,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from "vue";
+
 const showModal = ref(false);
 
 watch(showModal, (val) => {
