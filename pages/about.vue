@@ -1,11 +1,9 @@
 <template>
-  <div
-    class="flex flex-col items-center justify-center min-h-screen max-w-[1325px] mx-auto px-4"
-  >
-    <!-- SECTION CHỮ -->
+  <div class="flex-col items-center justify-center min-h-screen w-full">
+    <!-- SECTION CHỪ -->
     <div
       ref="textRef"
-      class="sticky top-[40vh] flex flex-col items-center z-0 mb-[700px]"
+      class="sticky top-[40vh] flex flex-col items-center z-0 mb-[700px] w-full"
       :class="{ 'opacity-0 pointer-events-none': isHidden }"
     >
       <div class="mt-2">
@@ -16,187 +14,197 @@
         </h1>
       </div>
     </div>
+
+    <!-- IMAGE SECTION -->
     <div
       ref="imageRef"
-      class="lg:w-[1264px] w-full lg:h-auto h-[538px] object-cover px-4 relative"
+      class="w-full max-w-[1324px] lg:h-auto h-[621px] px-2 mx-auto relative"
     >
-      <img src="/imgs/about1.avif" alt="" class="rounded-4xl" />
+      <img
+        src="/imgs/about1.avif"
+        alt=""
+        class="rounded-4xl w-full h-full object-cover"
+      />
       <div
-        class="absolute top-3 left-8 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
+        class="absolute lg:top-3 top-2 lg:left-8 left-2 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
       >
         Hï Ibiza
       </div>
     </div>
-    <div class="max-w-[1052px] mx-auto flex flex-col text-left mt-20">
-      <p class="lg:text-2xl text-lg font-bold mb-6">
-        Officially the World’s #1 Club, Hï Ibiza is a 360 nightlife experience
-        featuring the world’s best DJs, incredible production, plus so much
-        more.
-      </p>
-      <p class="lg:text-2xl text-lg font-bold mb-6">
-        Officially the World’s #1 Club, Hï Ibiza is a 360 nightlife experience
-        featuring the world’s best DJs, incredible production, plus so much
-        more.
-      </p>
-      <p class="lg:text-2xl text-lg font-bold mb-6">
-        Officially the World’s #1 Club, Hï Ibiza is a 360 nightlife experience
-        featuring the world’s best DJs, incredible production, plus so much
-        more.
-      </p>
-      <p class="lg:text-2xl text-lg font-bold mb-6">
+
+    <!-- TEXT PARAGRAPHS -->
+    <div
+      class="max-w-[1052px] w-full px-4 mx-auto flex flex-col text-left mt-20"
+    >
+      <p class="lg:text-2xl text-lg font-bold mb-6" v-for="i in 4" :key="i">
         Officially the World’s #1 Club, Hï Ibiza is a 360 nightlife experience
         featuring the world’s best DJs, incredible production, plus so much
         more.
       </p>
     </div>
   </div>
-  <div class="relative z-20 w-full flex flex-col justify-center items-center">
-    <UCarousel
-      :items="items"
-      :ui="{
-        item: 'basis-1/3 pr-2',
-        dots: 'mt-10 lg:ml-[48%] ml-[36%] flex justify-center gap-3',
-        dot: 'h-2 w-2 rounded-full bg-gray-400 transition-all data-[state=active]:!bg-black data-[state=active]:!scale-110',
-      }"
-      class="w-full"
-      loop
-      dots
-    >
-      <template #default="{ item }">
-        <img :src="item" alt="" class="!w-[310px] !h-[310px] object-cover" />
-      </template>
-    </UCarousel>
 
-    <div
-      v-for="(section, index) in sections"
-      :key="section.id"
-      class="w-full flex flex-col items-center justify-center"
-    >
-      <SectionTitleMid :title="section.title" />
+  <!-- CAROUSEL & SECTIONS -->
+  <div class="px-2 mx-auto">
+    <div class="relative z-20 w-full flex flex-col justify-center items-center">
+      <UCarousel
+        :items="items"
+        :ui="{
+          item: 'basis-1/3 pr-2',
+          dots: 'mt-10 lg:ml-[48%] ml-[36%] flex justify-center gap-3',
+          dot: 'h-2 w-2 rounded-full bg-gray-400 transition-all data-[state=active]:!bg-black data-[state=active]:!scale-110',
+        }"
+        class="w-full"
+        loop
+        dots
+      >
+        <template #default="{ item }">
+          <img :src="item" alt="" class="w-[310px] h-[310px] object-cover" />
+        </template>
+      </UCarousel>
 
-      <div v-if="section.images.type === 'swiper'">
-        <Swiper
-          :modules="modules"
-          effect="coverflow"
-          grabCursor
-          centeredSlides
-          loop
-          slidesPerView="auto"
-          :coverflowEffect="{
-            rotate: 0,
-            stretch: 0,
-            depth: 100,
-            modifier: 2.5,
-            slideShadows: true,
-          }"
-          :pagination="{ el: '.swiper-pagination', clickable: true }"
-          class="lg:w-[1264px] w-full lg:h-auto h-[538px] object-cover px-4"
-        >
-          <SwiperSlide
-            v-for="(img, i) in section.images.list"
-            :key="i"
-            class="relative rounded-4xl overflow-hidden"
+      <div
+        v-for="(section, index) in sections"
+        :key="section.id"
+        class="w-full flex flex-col items-center justify-center"
+      >
+        <SectionTitleMid :title="section.title" />
+
+        <div v-if="section.images.type === 'swiper'">
+          <Swiper
+            :modules="modules"
+            effect="coverflow"
+            grabCursor
+            centeredSlides
+            loop
+            slidesPerView="auto"
+            :coverflowEffect="{
+              rotate: 0,
+              stretch: 0,
+              depth: 100,
+              modifier: 2.5,
+              slideShadows: true,
+            }"
+            :pagination="{ el: '.swiper-pagination', clickable: true }"
+            class="w-full max-w-[1324px] mx-auto object-cover px-4"
           >
-            <img
-              :src="img"
-              class="w-full h-full object-cover rounded-4xl relative z-10"
-            />
-            <div
-              class="absolute top-3 left-8 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
-            >
-              {{ section.title }}
-            </div>
-          </SwiperSlide>
-          <div class="swiper-pagination flex justify-center space-x-2 my-3" />
-        </Swiper>
-      </div>
-
-      <div v-else-if="section.images.type === 'grid'" class="w-[1264px]">
-        <!-- Nếu là secret-garden thì hiển thị 2 ảnh nhỏ trên, 1 ảnh to dưới -->
-        <div
-          v-if="section.id === 'secret-garden'"
-          class="flex flex-col gap-2 relative"
-        >
-          <div class="grid grid-cols-2 gap-2 relative">
-            <div
-              v-for="(img, i) in section.images.grid"
+            <SwiperSlide
+              v-for="(img, i) in section.images.list"
               :key="i"
-              class="relative"
+              class="relative rounded-4xl overflow-hidden"
             >
-              <img :src="img" alt="" class="w-full object-cover" />
+              <img
+                :src="img"
+                class="w-full lg:h-full h-[621px] object-cover rounded-4xl relative z-10"
+              />
               <div
-                class="absolute top-3 left-8 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
+                class="absolute lg:top-3 top-2 lg:left-8 left-2 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
+              >
+                {{ section.title }}
+              </div>
+            </SwiperSlide>
+            <div class="swiper-pagination flex justify-center space-x-2 my-3" />
+          </Swiper>
+        </div>
+
+        <div
+          v-else-if="section.images.type === 'grid'"
+          class="w-full max-w-[1324px] mx-auto"
+        >
+          <div
+            v-if="section.id === 'secret-garden'"
+            class="flex flex-col gap-2 relative"
+          >
+            <div class="grid grid-cols-2 gap-2 relative">
+              <div
+                v-for="(img, i) in section.images.grid"
+                :key="i"
+                class="relative"
+              >
+                <img
+                  :src="img"
+                  alt=""
+                  class="lg:w-full w-[203px] lg:h-auto h-[203px] object-cover"
+                />
+                <div
+                  class="absolute lg:top-3 top-2 lg:left-8 left-2 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
+                >
+                  {{ section.title }}
+                </div>
+              </div>
+            </div>
+            <div class="relative">
+              <img
+                :src="section.images.main"
+                alt=""
+                class="lg:w-full w-[414px] lg:h-auto h-[414px] object-cover"
+              />
+              <div
+                class="absolute lg:top-3 top-2 lg:left-8 left-2 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
               >
                 {{ section.title }}
               </div>
             </div>
           </div>
-          <div class="relative">
+
+          <div v-else class="relative">
             <img
               :src="section.images.main"
               alt=""
-              class="w-full object-cover"
+              class="lg:w-full w-[412px] lg:h-auto h-[412px] object-cover mb-2"
             />
             <div
-              class="absolute top-3 left-8 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
+              class="absolute lg:top-3 top-2 lg:left-8 left-2 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
+            >
+              {{ section.title }}
+            </div>
+            <div class="grid grid-cols-2 gap-2 relative">
+              <div
+                v-for="(img, i) in section.images.grid"
+                :key="i"
+                class="relative"
+              >
+                <img
+                  :src="img"
+                  alt=""
+                  class="lg:w-full w-[203px] lg:h-auto h-[203px] object-cover"
+                />
+                <div
+                  class="absolute lg:top-3 top-2 lg:left-8 left-2 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
+                >
+                  {{ section.title }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          v-else-if="section.images.type === 'single'"
+          class="w-full max-w-[1324px] px-4 mx-auto"
+        >
+          <div class="relative">
+            <img
+              :src="section.images.src"
+              alt=""
+              class="w-full lg:h-full h-[621px] rounded-3xl object-cover mb-2"
+            />
+            <div
+              class="absolute lg:top-3 top-2 lg:left-8 left-2 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
             >
               {{ section.title }}
             </div>
           </div>
         </div>
 
-        <!-- Các section khác giữ layout ảnh to trên, ảnh nhỏ dưới -->
-        <div v-else class="relative">
-          <img
-            :src="section.images.main"
-            alt=""
-            class="lg:w-[1264px] w-[412px] lg:h-auto h-[412px] mb-2"
-          />
-          <div
-            class="absolute top-3 left-8 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
-          >
-            {{ section.title }}
-          </div>
-          <div class="grid grid-cols-2 gap-2 relative">
-            <div
-              v-for="(img, i) in section.images.grid"
-              :key="i"
-              class="relative"
-            >
-              <img alt="" :src="img" class="w-full object-cover" />
-              <div
-                class="absolute top-3 left-8 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
-              >
-                {{ section.title }}
-              </div>
-            </div>
-          </div>
+        <div class="max-w-2xl px-4 mx-auto flex flex-col text-left mt-20">
+          <p class="text-2xl font-bold mb-6 text-blue-500">
+            {{ section.highlight }}
+          </p>
+          <p class="lg:text-2xl text-lg font-bold mb-6">
+            {{ section.description }}
+          </p>
         </div>
-      </div>
-
-      <div
-        v-else-if="section.images.type === 'single'"
-        class="w-[1264px] relative"
-      >
-        <img
-          :src="section.images.src"
-          alt=""
-          class="lg:w-[1264px] w-[412px] lg:h-auto h-[412px] mb-2"
-        />
-        <div
-          class="absolute top-3 left-8 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
-        >
-          {{ section.title }}
-        </div>
-      </div>
-
-      <div class="max-w-2xl mx-auto flex flex-col text-left mt-20">
-        <p class="lg:text-2xl text-lg font-bold mb-6 text-blue-500">
-          {{ section.highlight }}
-        </p>
-        <p class="lg:text-2xl text-lg font-bold mb-6">
-          {{ section.description }}
-        </p>
       </div>
     </div>
   </div>

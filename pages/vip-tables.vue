@@ -3,7 +3,7 @@
     <!-- SECTION CHỮ -->
     <div
       ref="textRef"
-      class="sticky top-[35vh] z-0 flex flex-col items-center transition-opacity"
+      class="sticky lg:top-[35vh] top-[30vh] z-0 flex flex-col items-center transition-opacity"
       :class="{ 'opacity-0 pointer-events-none': isHidden }"
     >
       <div
@@ -12,10 +12,31 @@
         Vip Tables
       </div>
 
-      <div class="text-black text-5xl uppercase font-bold mt-2 text-center">
+      <div
+        class="text-black lg:text-5xl text-4xl lg:max-w-full max-w-[377px] uppercase font-bold mt-2 text-center"
+      >
         <span>For those ready to experience a</span>
         <span class="block">new level of luxury</span>
       </div>
+
+      <!-- Modal overlay -->
+      <Teleport to="body">
+        <div
+          v-if="showModal"
+          class="fixed inset-0 bg-black/30 bg-opacity-60 flex items-center justify-center z-50"
+          @click.self="showModal = false"
+        >
+          <div class="relative bg-white rounded-4xl max-w-4xl">
+            <button
+              class="absolute top-2 right-3 cursor-pointer text-white bg-red-500 rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 z-30"
+              @click="showModal = false"
+            >
+              ✕
+            </button>
+            <SelectModalEvent />
+          </div>
+        </div>
+      </Teleport>
       <MyButton
         text="VIP Tables"
         bgColor="black"
@@ -23,28 +44,10 @@
         class="hover:bg-white/40 mt-4"
         @click="showModal = true"
       />
-
-      <!-- Modal overlay -->
-      <div
-        v-if="showModal"
-        class="fixed inset-0 bg-black/30 bg-opacity-60 flex items-center justify-center z-50"
-        @click.self="showModal = false"
-      >
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-4xl max-w-4xl">
-          <button
-            class="absolute top-2 right-3 cursor-pointer text-white bg-red-500 rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 z-30"
-            @click="showModal = false"
-          >
-            ✕
-          </button>
-          <SelectModalEvent />
-        </div>
-      </div>
     </div>
 
     <!-- Swiper ảnh -->
-    <div ref="imageRef" class="mt-[700px]">
+    <div ref="imageRef" class="lg:mt-[700px] mt-[500px] relative z-20">
       <Swiper
         :modules="modules"
         effect="coverflow"

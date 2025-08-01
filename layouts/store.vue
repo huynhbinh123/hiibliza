@@ -114,8 +114,9 @@
         </div>
       </transition>
     </div>
-
-    <slot />
+    <div class="w-full lg:max-w-[1325px] mx-auto">
+      <slot />
+    </div>
     <Footer />
   </div>
 </template>

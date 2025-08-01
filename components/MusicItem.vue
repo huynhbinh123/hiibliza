@@ -1,13 +1,13 @@
 <!-- components/MusicItem.vue -->
 <template>
   <div
-    class="flex flex-col p-2 lg:w-[416px] w-[374px] lg:h-[643px] h-[603px] bg-[#19191a] rounded-4xl cursor-grab active:cursor-grabbing"
+    class="flex flex-col justify-center p-2 lg:w-[416px] w-[374px] lg:h-[643px] h-[642px] bg-[#19191a] rounded-4xl cursor-grab active:cursor-grabbing"
   >
     <!-- Ảnh -->
     <NuxtLink :to="item.slug">
       <img
         :src="item.img"
-        class="rounded-3xl mb-4 w-[400px] h-[400px] object-cover"
+        class="rounded-3xl mb-4 lg:w-[400px] w-full h-[400px] object-cover"
       />
     </NuxtLink>
 

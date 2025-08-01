@@ -1,6 +1,8 @@
 <template>
   <div class="py-20 sticky top-2">
-    <div class="w-full flex justify-center relative">
+    <div
+      class="lg:w-full w-[398px] flex justify-center relative whitespace-nowrap"
+    >
       <ul
         ref="tabListRef"
         class="inline-flex relative items-center gap-2 bg-white text-black rounded-3xl p-1 shadow-md"
@@ -13,7 +15,7 @@
 
         <!-- Tabs -->
         <li
-          v-for="(item, index) in tabs"
+          v-for="(item, index) in visibleTabs"
           :key="index"
           ref="tabRefs"
           @click="selectedIndex = index"
@@ -34,10 +36,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, nextTick, computed, watch } from "vue";
+import { ref, onMounted, onUnmounted, nextTick, computed, watch } from "vue";
 
 const props = defineProps<{
   tabs: string[];
+  maxMobileTabs?: number; // số tabs tối đa trên mobile, mặc định là 4
 }>();
 
 const emit = defineEmits<{
@@ -49,7 +52,39 @@ const hoverIndex = ref(0);
 
 // Emit khi tab thay đổi
 watch(selectedIndex, (index) => {
-  emit("update", props.tabs[index]);
+  emit("update", visibleTabs.value[index]);
+});
+
+// Responsive xử lý mobile
+const isMobile = ref(false);
+
+const updateIsMobile = () => {
+  isMobile.value = window.innerWidth < 1024;
+};
+
+onMounted(() => {
+  updateIsMobile();
+  window.addEventListener("resize", updateIsMobile);
+
+  nextTick(() => {
+    const children = tabListRef.value?.children || [];
+    tabRefs.value = Array.from(children).filter(
+      (child: any) => child.tagName === "LI"
+    ) as HTMLElement[];
+
+    hoverIndex.value = selectedIndex.value;
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateIsMobile);
+});
+
+// Tabs hiển thị theo màn hình
+const visibleTabs = computed(() => {
+  return isMobile.value
+    ? props.tabs.slice(0, props.maxMobileTabs ?? 4)
+    : props.tabs;
 });
 
 // Refs
@@ -60,33 +95,16 @@ const tabListRef = ref<HTMLElement | null>(null);
 const indicatorStyle = computed(() => {
   const el = tabRefs.value[hoverIndex.value];
   if (!el) return {};
-
-  const offsetLeft = el.offsetLeft;
-  const width = el.offsetWidth;
   return {
-    left: `${offsetLeft}px`,
-    width: `${width}px`,
+    left: `${el.offsetLeft}px`,
+    width: `${el.offsetWidth}px`,
     height: `${el.offsetHeight}px`,
   };
-});
-
-// Khởi tạo danh sách refs cho từng tab
-onMounted(() => {
-  nextTick(() => {
-    const children = tabListRef.value?.children || [];
-    tabRefs.value = Array.from(children).filter(
-      (child: any) => child.tagName === "LI"
-    ) as HTMLElement[];
-
-    // Đặt hoverIndex ban đầu bằng selectedIndex
-    hoverIndex.value = selectedIndex.value;
-  });
 });
 </script>
 
 <style scoped>
-/* Để indicator không đè text */
 ul > div {
-  z-index: 1;
+  z-index: 1; /* Đảm bảo indicator nằm dưới text */
 }
 </style>

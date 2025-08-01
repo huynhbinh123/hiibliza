@@ -9,7 +9,9 @@
         @update="onTabChange"
       />
 
-      <div class="grid grid-cols-3 gap-4 w-full">
+      <div
+        class="grid lg:grid-cols-3 grid-cols-1 gap-4 w-full mx-auto place-items-center"
+      >
         <!-- music -->
         <MusicItem
           v-for="(item, index) in musicList"

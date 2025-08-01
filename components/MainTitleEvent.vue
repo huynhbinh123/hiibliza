@@ -24,7 +24,7 @@
       ref="imageRef"
       src="/imgs/event.avif"
       alt=""
-      class="w-[1264px] h-auto rounded-4xl mt-[700px] relative z-30"
+      class="lg:w-[1264px] w-[413px] lg:h-auto h-[621px] rounded-4xl mt-[700px] relative z-30"
     />
   </div>
 </template>

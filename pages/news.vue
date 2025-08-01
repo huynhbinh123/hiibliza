@@ -6,13 +6,14 @@
 
     <SelectBar :tabs="['All', 'Article', 'Interview']" @update="onTabChange" />
 
-    <div class="grid grid-cols-3 gap-4 w-full">
+    <div class="grid lg:grid-cols-3 grid-cols-1 gap-4 mx-auto w-full">
       <!-- music -->
       <MusicItem
         v-for="(item, index) in News"
         :key="index"
         :item="item"
         name="Read More"
+        class=""
       />
     </div>
     <div class="my-6 flex justify-center">

@@ -5,10 +5,11 @@
     <MainTitleEvent />
     <SelectBar
       :tabs="['Next Up', 'July', 'August', 'September', 'October']"
+      :maxMobileTabs="4"
       @update="handleTabSelect"
     />
 
-    <div class="grid grid-cols-3 gap-4 w-full">
+    <div class="grid lg:grid-cols-3 grid-cols-1 gap-4 w-full">
       <EventCard
         v-for="(item, index) in visibleEvents"
         :key="index"
