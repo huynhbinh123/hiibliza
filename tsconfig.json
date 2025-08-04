@@ -12,19 +12,12 @@
       "#imports": [".nuxt/imports.d.ts"],
       "#internal/*": [".nuxt/internal/*"]
     },
-    "types": ["@types/node", "@nuxt/image"],
+    "types": ["@types/node"],
     "allowJs": true,
     "jsx": "preserve",
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true
   },
-  "include": [
-    "nuxt.d.ts",
-    ".nuxt",
-    "types/**/*.ts",
-    "types",
-    "components",
-    "pages"
-  ]
+  "include": ["nuxt.d.ts", ".nuxt", "types/**/*.ts", "components", "pages"]
 }

@@ -13,7 +13,7 @@
         :key="index"
         :item="item"
         name="Read More"
-        class=""
+        class="w-full"
       />
     </div>
     <div class="my-6 flex justify-center">

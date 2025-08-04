@@ -8,4 +8,7 @@
 </template>
 <style>
 @import "tailwindcss";
+html {
+  font-family: Georgia, serif;
+}
 </style>

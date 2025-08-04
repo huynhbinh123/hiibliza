@@ -46,42 +46,39 @@
       />
     </div>
 
-    <!-- Swiper ảnh -->
+    <!-- UCarousel  -->
     <div ref="imageRef" class="lg:mt-[700px] mt-[500px] relative z-20">
-      <Swiper
-        :modules="modules"
-        effect="coverflow"
-        grabCursor
-        centeredSlides
-        loop
-        slidesPerView="auto"
-        :coverflowEffect="{
-          rotate: 0,
-          stretch: 0,
-          depth: 100,
-          modifier: 2.5,
-          slideShadows: true,
+      <UCarousel
+        :items="vipImageList"
+        indicators
+        aria-grabbed="true"
+        autoplay
+        :loop="true"
+        class="w-full max-w-[1264px] lg:h-full max-h-[710px] h-[621px] mx-auto"
+        :ui="{
+          wrapper: 'relative w-full overflow-hidden',
+          item: 'shrink-0 snap-center relative w-full',
+          indicators: {
+            wrapper:
+              'absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-50',
+            item: 'w-2 h-2 rounded-full bg-white/40 hover:bg-white transition-all',
+            active: 'bg-white w-3 h-3',
+          },
         }"
-        :pagination="{ el: '.swiper-pagination', clickable: true }"
-        class="lg:w-[1264px] w-full lg:h-auto h-[538px] object-cover px-4"
+        v-slot="{ item }"
       >
-        <SwiperSlide
-          v-for="(img, index) in vipImageList"
-          :key="index"
-          class="relative rounded-4xl overflow-hidden"
-        >
+        <div class="relative rounded-4xl overflow-hidden h-full">
           <img
-            :src="img"
-            class="w-full h-full object-cover rounded-4xl relative z-10"
+            :src="item"
+            class="w-full lg:h-full h-[621px] object-cover rounded-4xl cursor-pointer relative z-10"
           />
           <div
             class="absolute top-3 left-8 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
           >
             The Theatre
           </div>
-        </SwiperSlide>
-        <div class="swiper-pagination flex justify-center space-x-2 my-3" />
-      </Swiper>
+        </div>
+      </UCarousel>
     </div>
   </div>
   <div
@@ -119,8 +116,6 @@
 <script lang="ts" setup>
 import { ref, computed, watch } from "vue";
 import { useElementBounding } from "@vueuse/core";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { EffectCoverflow, Pagination } from "swiper/modules";
 
 const showModal = ref(false);
 
@@ -131,8 +126,6 @@ watch(showModal, (val) => {
     document.body.classList.remove("overflow-hidden");
   }
 });
-
-const modules = [EffectCoverflow, Pagination];
 
 const textRef = ref<HTMLElement | null>(null);
 const imageRef = ref<HTMLElement | null>(null);

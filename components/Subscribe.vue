@@ -16,158 +16,184 @@
     <!-- RIGHT FORM -->
     <div class="flex-1 text-white flex flex-col overflow-hidden">
       <!-- Scrollable content -->
-      <div class="flex-1 overflow-y-auto scrollbar-hidden p-1 px-3">
+      <div class="flex-1 overflow-y-auto scrollbar-hidden p-4">
         <h2 class="text-lg text-center font-bold mb-4">
           Sign-up now to receive 20% off at the Hï Ibiza online store
         </h2>
 
-        <div class="flex gap-4 mb-3 text-white">
+        <div class="text-white relative">
           <UForm
             :state="state"
             :schema="schema"
-            class="gap-4 flex flex-col w-full"
+            class="flex flex-col w-full"
             @submit="onSubmit"
           >
-            <div class="flex gap-4">
-              <!-- NAME -->
-              <div class="relative flex-1">
+            <div class="flex-1 overflow-y-auto scrollbar-hidden pt-1 px-3">
+              <div class="flex gap-4">
+                <!-- NAME -->
+                <div class="relative flex-1">
+                  <label
+                    :class="[
+                      'absolute left-4 transition-all duration-300 pointer-events-none text-gray-400 font-medium',
+                      state.name || isFocusedName
+                        ? 'text-xs top-0 bg-[#19191a] px-1'
+                        : 'top-3 text-sm',
+                    ]"
+                    for="input-name"
+                  >
+                    Name
+                  </label>
+                  <UFormField name="name" class="w-full">
+                    <UInput
+                      id="input-name"
+                      v-model="state.name"
+                      @focus="isFocusedName = true"
+                      @blur="isFocusedName = false"
+                      :ui="{
+                        base: 'bg-transparent border border-white rounded-2xl pt-6 pb-2 pl-5 text-white placeholder-transparent',
+                      }"
+                      placeholder="Name"
+                    />
+                  </UFormField>
+                </div>
+
+                <!-- SURNAME -->
+                <div class="relative flex-1">
+                  <label
+                    :class="[
+                      'absolute left-4 transition-all duration-300 pointer-events-none text-gray-400 font-medium',
+                      state.surname || isFocusedSurname
+                        ? 'text-xs top-0 bg-[#19191a] px-1'
+                        : 'top-3 text-sm',
+                    ]"
+                    for="input-surname"
+                  >
+                    Surname
+                  </label>
+                  <UFormField name="surname" class="w-full">
+                    <UInput
+                      id="input-surname"
+                      v-model="state.surname"
+                      @focus="isFocusedSurname = true"
+                      @blur="isFocusedSurname = false"
+                      :ui="{
+                        base: 'bg-transparent border border-white rounded-2xl pt-6 pb-2 pl-5 text-white placeholder-transparent',
+                      }"
+                      placeholder="Surname"
+                    />
+                  </UFormField>
+                </div>
+              </div>
+              <!-- email -->
+              <div class="relative w-full">
                 <label
                   :class="[
                     'absolute left-4 transition-all duration-300 pointer-events-none text-gray-400 font-medium',
-                    state.name || isFocusedName
+                    state.email || isFocusedEmail
                       ? 'text-xs top-0 bg-[#19191a] px-1'
                       : 'top-3 text-sm',
                   ]"
-                  for="input-name"
+                  for="input-email"
                 >
-                  Name
+                  Email
                 </label>
-                <UFormField name="name" class="w-full">
+                <UFormField name="email" class="w-full">
                   <UInput
-                    id="input-name"
-                    v-model="state.name"
-                    @focus="isFocusedName = true"
-                    @blur="isFocusedName = false"
+                    id="input-email"
+                    v-model="state.email"
+                    @focus="isFocusedEmail = true"
+                    @blur="isFocusedEmail = false"
                     :ui="{
-                      base: 'bg-transparent border border-white rounded-2xl pt-6 pb-2 pl-5 text-white placeholder-transparent',
+                      base: 'bg-transparent border border-white rounded-2xl pt-6 pb-2 pl-5 text-white placeholder-transparent lg:w-[359px] w-[350px]',
                     }"
-                    placeholder="Name"
+                    placeholder="Email"
                   />
                 </UFormField>
               </div>
 
-              <!-- SURNAME -->
-              <div class="relative flex-1">
-                <label
-                  :class="[
-                    'absolute left-4 transition-all duration-300 pointer-events-none text-gray-400 font-medium',
-                    state.surname || isFocusedSurname
-                      ? 'text-xs top-0 bg-[#19191a] px-1'
-                      : 'top-3 text-sm',
-                  ]"
-                  for="input-surname"
-                >
-                  Surname
-                </label>
-                <UFormField name="surname" class="w-full">
-                  <UInput
-                    id="input-surname"
-                    v-model="state.surname"
-                    @focus="isFocusedSurname = true"
-                    @blur="isFocusedSurname = false"
-                    :ui="{
-                      base: 'bg-transparent border border-white rounded-2xl pt-6 pb-2 pl-5 text-white placeholder-transparent',
-                    }"
-                    placeholder="Surname"
+              <!-- // phone -->
+              <div class="flex items-start gap-4 w-full relative">
+                <div class="w-[90px]">
+                  <USelect
+                    :options="countryCodes"
+                    v-model="selectedCode"
+                    class="w-full border p-2 py-4 rounded-2xl"
                   />
-                </UFormField>
+                </div>
+                <div class="relative flex-1">
+                  <label
+                    :class="[
+                      'absolute left-4 transition-all duration-300 pointer-events-none text-gray-400 font-medium',
+                      state.phone || isFocusedPhone
+                        ? 'text-xs top-0 bg-[#19191a] px-1'
+                        : 'top-3 text-sm',
+                    ]"
+                    for="input-phone"
+                  >
+                    Phone
+                  </label>
+                  <UFormField name="phone" class="w-full">
+                    <UInput
+                      id="input-phone"
+                      v-model="state.phone"
+                      @focus="isFocusedPhone = true"
+                      @blur="isFocusedPhone = false"
+                      :ui="{
+                        base: 'bg-transparent border border-white rounded-2xl pt-6 pb-2 pl-5 text-white placeholder-transparent lg:w-[273px] w-[244px]',
+                      }"
+                      placeholder="Phone"
+                    />
+                  </UFormField>
+                </div>
               </div>
-            </div>
-            <!-- email -->
-            <div class="relative flex flex-1">
-              <label
-                :class="[
-                  'absolute left-4 transition-all duration-300 pointer-events-none text-gray-400 font-medium',
-                  state.email || isFocusedEmail
-                    ? 'text-xs top-0 bg-[#19191a] px-1'
-                    : 'top-3 text-sm',
-                ]"
-                for="input-email"
-              >
-                Email
-              </label>
-              <UFormField name="email" class="w-full">
-                <UInput
-                  id="input-email"
-                  v-model="state.email"
-                  @focus="isFocusedEmail = true"
-                  @blur="isFocusedEmail = false"
-                  :ui="{
-                    base: 'bg-transparent  border border-white rounded-2xl pt-6 pb-2 pl-5 text-white placeholder-transparent',
-                  }"
-                  placeholder="Email"
-                />
-              </UFormField>
-            </div>
 
-            <div class="relative flex flex-1 gap-4">
-              <USelect
-                :options="countryCodes"
-                v-model="selectedCode"
-                class="w-18 border p-2 rounded-2xl"
+              <UCheckbox
+                v-model="consent1"
+                required
+                :ui="{
+                  base: 'flex items-start',
+                  label: 'ml-3 text-sm text-white',
+                  wrapper: 'items-start',
+                  container:
+                    'w-4 h-4 border-2 border-white rounded-md bg-transparent checked:bg-blue-600 checked:border-blue-600 flex items-center justify-center',
+                  icon: 'text-white w-3 h-3',
+                }"
+                class="mb-2 cursor-pointer"
+                label="I hereby give my consent to USHUAÏA ENTERTAINMENT SL and THE NIGHT LEAGUE, to process my personal data, according to their Privacy Policy."
               />
 
-              <label
-                :class="[
-                  'absolute left-22 transition-all duration-300 pointer-events-none text-gray-400 font-medium',
-                  state.phone || isFocusedPhone
-                    ? 'text-xs top-0 bg-[#19191a] px-1'
-                    : 'top-3 text-sm',
-                ]"
-                for="input-phone"
-              >
-                Phone
-              </label>
-              <UFormField name="phone" class="w-full">
-                <UInput
-                  id="input-phone"
-                  v-model="state.phone"
-                  @focus="isFocusedPhone = true"
-                  @blur="isFocusedPhone = false"
-                  :ui="{
-                    base: 'bg-transparent  border border-white rounded-2xl pt-6 pb-2 pl-5 text-white placeholder-transparent',
-                  }"
-                  placeholder="Phone"
-                />
-              </UFormField>
+              <UCheckbox
+                v-model="consent2"
+                required
+                :ui="{
+                  base: 'flex items-start',
+                  label: 'ml-3 text-sm text-white',
+                  wrapper: 'items-start',
+                  container:
+                    'w-4 h-4 border-2 border-white rounded-md bg-transparent checked:bg-blue-600 checked:border-blue-600 flex items-center justify-center',
+                  icon: 'text-white w-3 h-3',
+                }"
+                class="mb-4 cursor-pointer"
+                label="I hereby agree to their Privacy Policy."
+              />
+
+              <p class="text-xs text-white">
+                <!-- Text dài giữ nguyên -->
+                We will keep your data as long as you allow us and we are bound
+                by law. Your Data Protection rights are Access, Rectification,
+                Erasure, Restriction of processing, Data Portability and Object.
+                You might exercise them by written enquiry to USHUAÏA
+                ENTERTAINMENT SL, AVDA. BARTOLOMÉ ROSSELLÓ 18, 07800 IBIZA
+                (ISLAS BALEARES) or THE NIGHT LEAGUE SL, APDO. CORREOS, 1020,
+                07817 SANT JORDI DE SES SALINES (ISLAS BALEARES) or by email to
+                data.protection@thenightleague.com. In case of disagreement, you
+                might make a complaint to the Spanish Data Protection Agency
+                (www.aepd.es)
+              </p>
             </div>
-            <UCheckbox
-              required
-              class="text-sm mb-2"
-              label="I hereby give my consent to USHUAÏA ENTERTAINMENT SL and THE NIGHT LEAGUE, to process my personal data, according to their Privacy Policy."
-            />
 
-            <UCheckbox
-              v-model="consent2"
-              class="text-sm mb-4"
-              label="I hereby agree to their Privacy Policy."
-            />
-
-            <p class="text-xs text-white">
-              <!-- Text dài giữ nguyên -->
-              We will keep your data as long as you allow us and we are bound by
-              law. Your Data Protection rights are Access, Rectification,
-              Erasure, Restriction of processing, Data Portability and Object.
-              You might exercise them by written enquiry to USHUAÏA
-              ENTERTAINMENT SL, AVDA. BARTOLOMÉ ROSSELLÓ 18, 07800 IBIZA (ISLAS
-              BALEARES) or THE NIGHT LEAGUE SL, APDO. CORREOS, 1020, 07817 SANT
-              JORDI DE SES SALINES (ISLAS BALEARES) or by email to
-              data.protection@thenightleague.com. In case of disagreement, you
-              might make a complaint to the Spanish Data Protection Agency
-              (www.aepd.es)
-            </p>
             <!-- Sticky bottom button -->
-            <div class="p-2">
+            <div class="sticky -bottom-4 bg-[#19191a] p-3 z-10">
               <UButton
                 type="submit"
                 class="w-full font-medium py-2 justify-center bg-blue-600 text-white text-lg rounded-4xl cursor-pointer"
@@ -191,7 +217,6 @@ const countryCodes = [
   { label: "+84", value: "+84" },
 ];
 const selectedCode = ref("+44");
-const consent2 = ref(false);
 
 const isFocusedName = ref(false);
 const isFocusedSurname = ref(false);
@@ -231,6 +256,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   });
   console.log(event.data);
 }
+
+const consent1 = ref(true); // mặc định được check
+const consent2 = ref(true); // mặc định được check
 </script>
 
 <style scoped>

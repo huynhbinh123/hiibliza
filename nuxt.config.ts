@@ -1,4 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
+import { defineNuxtConfig } from "nuxt/config";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -10,13 +11,7 @@ export default defineNuxtConfig({
   alias: {
     "~/types": "./types",
   },
-  modules: [
-    "@nuxt/image",
-    "@nuxt/icon",
-    "@nuxt/ui",
-    "@nuxt/fonts",
-    "@nuxt/content",
-  ],
+  modules: ["@nuxt/image", "@nuxt/icon", "@nuxt/ui", "@nuxt/fonts"],
   vite: {
     plugins: [tailwindcss()],
   },

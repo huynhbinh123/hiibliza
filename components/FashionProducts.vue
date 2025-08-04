@@ -3,7 +3,7 @@
   <UCarousel
     :items="items"
     :ui="{
-      item: 'basis-1/3 pr-2',
+      item: 'basis-1/6 pr-2',
       dots: 'mt-10  lg:ml-[48%] ml-[35%]  flex justify-center gap-3',
       // giới hạn bên trái ml-157
       dot: 'h-2 w-2 rounded-full bg-gray-400 transition-all data-[state=active]:!bg-black data-[state=active]:!scale-110',

@@ -13,26 +13,29 @@
     </div>
   </div>
 
-  <div class="flex flex-col items-center justify-center w-full py-8">
-    <swiper
-      :pagination="{ dynamicBullets: true }"
+  <div class="flex flex-col items-center justify-center w-full py-8 p-2">
+    <UCarousel
+      v-slot="{ item }"
+      :items="imagesList"
+      class="w-full max-w-[1200px] rounded-3xl"
+      dots
       loop
-      :modules="modules"
-      class="mySwiper w-full max-w-[1200px] rounded-3xl"
+      autoplay
+      :ui="{
+        item: 'shrink-0 snap-center w-full flex justify-center',
+        dots: 'mt-4 flex justify-center gap-3 w-full',
+        dot: 'w-2 h-2 rounded-full bg-gray-500 transition-all data-[state=active]:!bg-black',
+      }"
     >
-      <swiper-slide
-        v-for="(img, index) in imagesList"
-        :key="index"
-        class="flex justify-center"
-      >
-        <NuxtLink :to="img.slug"
-          ><img
-            :src="img.img"
-            alt=""
-            class="max-w-full max-h-[808px] object-contain flex justify-center"
-        /></NuxtLink>
-      </swiper-slide>
-    </swiper>
+      <NuxtLink :to="item.slug">
+        <img
+          :src="item.img"
+          alt=""
+          class="max-w-full max-h-[808px] object-contain"
+        />
+      </NuxtLink>
+    </UCarousel>
+
     <!-- CHẾ ĐỘ MOBILE/SM/MD -->
     <div
       class="flex flex-col justify-center items-center mt-10 w-full lg:hidden"
@@ -211,15 +214,6 @@ const imagesList = [
     slug: "collections/shop-now-woman-home",
   },
 ];
-
-// swiper
-
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-
-const modules = [Pagination];
 </script>
 
 <style></style>

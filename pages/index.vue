@@ -7,52 +7,48 @@
 
     <!-- list imgs -->
     <!-- Carousel -->
-    <div class="relative z-20 w-full flex flex-col justify-center items-center">
-      <Swiper
-        :modules="[EffectCoverflow, Pagination]"
-        effect="coverflow"
-        grabCursor
-        centeredSlides
-        :loop="true"
-        :slidesPerView="1.5"
-        :coverflowEffect="{
-          rotate: 0,
-          stretch: 0,
-          depth: 100,
-          modifier: 2.5,
-          slideShadows: true
-        }"
-        :pagination="{ el: '.swiper-pagination', clickable: true }"
-        class="lg:w-[1280px] w-full lg:h-[701px] h-[538px] object-cover px-4"
-      >
-        <SwiperSlide
-          v-for="(item, index) in imageList"
-          :key="index"
-          class="relative rounded-4xl overflow-hidden"
-        >
+  
+      <div class="relative z-20 lg:w-[1052px] w-[414px] lg:h-[701px] h-[621px] flex flex-col justify-center items-center mx-auto">
+        <UCarousel
+  v-slot="{ item }"
+  :items="imageList"
+  class="mx-auto flex items-center justify-center"
+  dots
+  autoplay
+  :loop="true"
+  :ui="{
+    wrapper: 'relative w-full overflow-hidden',
+    item: 'shrink-0 snap-center relative w-full',
+    dots: 'absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-50',
+    dot: 'w-3 h-3 rounded-full bg-gray-500 hover:bg-gray-500 data-[state=active]:bg-black transition-all',
+  }"
+>
           <img
             :src="item.src"
-            class="w-full h-full object-cover rounded-4xl relative z-10"
+            class="w-full h-[701px] object-cover rounded-4xl cursor-pointer"
           />
           <div
-            class="absolute bottom-4 left-0 w-full px-4 flex flex-col items-center justify-end z-20 pointer-events-none"
-          >
-            <div
-              class="text-white text-sm uppercase px-2 py-1 font-bold text-center bg-[hsl(280.59,40.48%,16.47%)] rounded-2xl"
-            >
-              {{ item.day }}
-            </div>
-            <div
-              class="text-white text-3xl uppercase font-bold text-center mt-2"
-            >
-              {{ item.title }}
-            </div>
-            <MyButton text="Read More" class="mt-4" :to="item.slug" bgColor="white" textColor="black"/>
+          class="absolute bottom-4 left-0 w-full px-4 flex flex-col items-center justify-end z-20 pointer-events-none"
+        >
+          <div class="text-white text-sm uppercase px-2 py-1 font-bold text-center bg-[hsl(280.59,40.48%,16.47%)] rounded-2xl">
+            {{ item.day }}
           </div>
-        </SwiperSlide>
-      </Swiper>
-      <div class="swiper-pagination mt-10 flex justify-center space-x-2" />
-    </div>
+          <div class="text-white text-3xl uppercase font-bold text-center mt-2">
+            {{ item.title }}
+          </div>
+          <div class="pointer-events-auto mt-4">
+                    <MyButton
+                      text="Read More"
+                      :to="item.slug"
+                      bgColor="white"
+                      textColor="black"
+                     />
+                    </div>
+                 </div>
+        </UCarousel>
+      </div>
+
+
 
     <SectionTitleMid title="SPECIAL EVENTS"/>
 
@@ -139,12 +135,12 @@
   </div class="px-2">
 </template>
 <script lang="ts" setup>
+defineProps<{
+  prevIcon?: string
+  nextIcon?: string
+}>()
+
 import { computed } from 'vue'
-import { Swiper, SwiperSlide } from "swiper/vue";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import { EffectCoverflow, Pagination } from "swiper/modules";
-const modules = [EffectCoverflow, Pagination];
 const imageList = [
   {
     src: "/imgs/Fridays.avif",
@@ -264,6 +260,16 @@ import { useMusicList } from "@/composables/useMusicList";
 import { useNews } from "@/composables/useNews";
 const musicList = useMusicList().slice(0, 6);
 const News = useNews().slice(0, 6);
+
+
+const items = [
+  'https://picsum.photos/640/640?random=1',
+  'https://picsum.photos/640/640?random=2',
+  'https://picsum.photos/640/640?random=3',
+  'https://picsum.photos/640/640?random=4',
+  'https://picsum.photos/640/640?random=5',
+  'https://picsum.photos/640/640?random=6'
+]
 
 </script>
 <style>

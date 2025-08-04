@@ -70,41 +70,32 @@
       >
         <SectionTitleMid :title="section.title" />
 
-        <div v-if="section.images.type === 'swiper'">
-          <Swiper
-            :modules="modules"
-            effect="coverflow"
-            grabCursor
-            centeredSlides
-            loop
-            slidesPerView="auto"
-            :coverflowEffect="{
-              rotate: 0,
-              stretch: 0,
-              depth: 100,
-              modifier: 2.5,
-              slideShadows: true,
+        <!-- ucarousel -->
+        <div
+          v-if="section.images.type === 'swiper'"
+          class="w-full max-w-[1324px] h-full mx-auto px-4"
+        >
+          <UCarousel
+            :items="section.images.list"
+            class="w-full"
+            :loop="true"
+            :ui="{
+              item: 'shrink-0 snap-center relative w-full',
             }"
-            :pagination="{ el: '.swiper-pagination', clickable: true }"
-            class="w-full max-w-[1324px] mx-auto object-cover px-4"
+            v-slot="{ item }"
           >
-            <SwiperSlide
-              v-for="(img, i) in section.images.list"
-              :key="i"
-              class="relative rounded-4xl overflow-hidden"
-            >
+            <div class="relative rounded-4xl overflow-hidden">
               <img
-                :src="img"
-                class="w-full lg:h-full h-[621px] object-cover rounded-4xl relative z-10"
+                :src="item"
+                class="w-full lg:h-full h-[621px] object-cover rounded-4xl relative cursor-pointer z-10"
               />
               <div
                 class="absolute lg:top-3 top-2 lg:left-8 left-2 z-20 text-xs uppercase py-1 font-bold text-center bg-[#19191a] text-white rounded-2xl px-3 w-max mt-1"
               >
                 {{ section.title }}
               </div>
-            </SwiperSlide>
-            <div class="swiper-pagination flex justify-center space-x-2 my-3" />
-          </Swiper>
+            </div>
+          </UCarousel>
         </div>
 
         <div
@@ -213,10 +204,6 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { useElementBounding } from "@vueuse/core";
-import { EffectCoverflow, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/vue";
-
-const modules = [EffectCoverflow, Pagination];
 
 const vipImageList = ["/imgs/viptables2.avif", "/imgs/viptables3.avif"];
 

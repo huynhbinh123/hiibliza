@@ -211,16 +211,6 @@ const nextPage = () => goToPage(currentPage.value + 1);
 const prevPage = () => goToPage(currentPage.value - 1);
 
 const selectedSort = ref("featured");
-const sortOptions = [
-  { label: "FEATURED", value: "featured" },
-  { label: "BEST SELLING", value: "best_selling" },
-  { label: "ALPHABETICALLY, A-Z", value: "az" },
-  { label: "ALPHABETICALLY, Z-A", value: "za" },
-  { label: "PRICE, LOW TO HIGH", value: "low_high" },
-  { label: "PRICE, HIGH TO LOW", value: "high_low" },
-  { label: "DATE, OLD TO NEW", value: "old_new" },
-  { label: "DATE, NEW TO OLD", value: "new_old" },
-];
 </script>
 
 <style></style>
