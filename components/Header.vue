@@ -83,24 +83,38 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+type DropDownItem = {
+  title: string;
+  link: string;
+};
+
 type EventItem = {
   name: string;
   image: string;
   day: string;
   slug: string;
 };
-import { ref, watch, onMounted, onUnmounted } from "vue";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
+// State
 const isOpen = ref(false);
 const menuHeader = ref<HTMLElement | null>(null);
 const dropdown = ref<HTMLElement | null>(null);
 
+const dropDown = ref<DropDownItem[]>([]); // <-- khai báo kiểu
+const items = ref<EventItem[]>([]); // <-- khai báo kiểu
+
+const router = useRouter();
+const route = useRoute();
+
+// Toggle menu
 function toggleMenu() {
   isOpen.value = !isOpen.value;
 }
 
+// Click ngoài để đóng menu
 function handleClickOutside(event: MouseEvent) {
   if (
     isOpen.value &&
@@ -119,93 +133,33 @@ onUnmounted(() => {
   document.removeEventListener("click", handleClickOutside);
 });
 
-// dropdown
-const dropDown = [
-  {
-    title: "Events",
-    link: "/events-calendar",
-  },
-  {
-    title: "News",
-    link: "/news",
-  },
-  {
-    title: "Music",
-    link: "/music",
-  },
-  {
-    title: "VIP Tables",
-    link: "/vip-tables",
-  },
-  {
-    title: "About",
-    link: "/about",
-  },
-  {
-    title: "Store",
-    link: "/store",
-  },
-];
+// Lấy dữ liệu từ PHP API
+onMounted(async () => {
+  try {
+    const res = await fetch("http://localhost/menu-data.php");
+    const data = await res.json();
 
-// Import the DropDown component
-const items = [
-  {
-    name: "Joseph Capriati Presents Metamorfosi",
-    image: "/imgs/Fridays.avif",
-    day: "Fridays",
-  },
-  {
-    name: "Black Coffee",
-    image: "/imgs/Saturdays.avif",
-    day: "Saturdays",
-  },
-  {
-    name: "GlitterBox",
-    day: "Sundays",
-    image: "/imgs/Sundays.avif",
-  },
-  {
-    name: "MEDUZA And James Hype Present Our House",
-    day: "Mondays",
-    image: "/imgs/Mondays.avif",
-  },
-  {
-    name: "The Martinez Brothers",
-    day: "Tuesdays",
-    image: "/imgs/Tuesdays.avif",
-  },
-  {
-    name: "Dom Dolla",
-    day: "Wednesdays",
-    image: "/imgs/Wednesdays.avif",
-  },
-  {
-    name: "Hugel Presents Make The Girls Dance",
-    image: "/imgs/Thursdays.avif",
-    day: "Thursdays",
-  },
-].map((item) => ({
-  ...item,
-  slug:
-    "/residency/" +
-    item.name
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "") // loại bỏ ký tự đặc biệt
-      .replace(/\s+/g, "-"), // chuyển khoảng trắng thành dấu -
-}));
-type DropDownItem = {
-  title: string;
-  link: string;
-};
+    dropDown.value = data.dropDown;
+    items.value = data.items.map((item: any) => ({
+      ...item,
+      slug:
+        "/residency/" +
+        item.name
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9\s]/g, "")
+          .replace(/\s+/g, "-"),
+    }));
+  } catch (error) {
+    console.error("Lỗi tải dữ liệu menu:", error);
+  }
+});
 
+// Chọn mục menu
 function handleSelect(item: DropDownItem) {
   isOpen.value = false;
   router.push(item.link);
 }
-
-import { useRoute } from "vue-router";
-const route = useRoute();
 </script>
 
 <style>
